@@ -71,7 +71,11 @@
       <div
         class="w-full flex flex-col gap-y-5 items-center justify-center px-5"
       >
-        <div class="flex justify-between items-center w-full">
+        <NuxtLink
+          to="/explore/tokens/eth"
+          @click="menuStore.handleToggleOpenSearch"
+          class="flex justify-between items-center w-full hover:bg-[#e2dddd3b]"
+        >
           <div class="flex justify-center items-center gap-x-2">
             <img src="~/assets/img/eth.png" class="w-[36px] h-[36px]" />
             <div class="flex flex-col justify-start items-start">
@@ -99,8 +103,10 @@
               <p class="text-red-500">1.90%</p>
             </div>
           </div>
-        </div>
-        <div class="flex justify-between items-center w-full">
+        </NuxtLink>
+        <div
+          class="flex justify-between items-center w-full hover:bg-[#e2dddd3b]"
+        >
           <div class="flex justify-center items-center gap-x-2">
             <img src="~/assets/img/usdc.png" class="w-[36px] h-[36px]" />
             <div class="flex flex-col justify-start items-start">
@@ -129,7 +135,9 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-between items-center w-full">
+        <div
+          class="flex justify-between items-center w-full hover:bg-[#e2dddd3b]"
+        >
           <div class="flex justify-center items-center gap-x-2">
             <img src="~/assets/img/tether.png" class="w-[36px] h-[36px]" />
             <div class="flex flex-col justify-start items-start">
