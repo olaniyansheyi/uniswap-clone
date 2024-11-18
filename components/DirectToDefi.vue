@@ -75,11 +75,6 @@
         <h1 class="tracking-wide text-2xl font-medium">
           The wallet built for swapping. Available on ios and Android.
         </h1>
-        <img
-          class="w-[90%] lg:w-auto lg:h-[280px] mx-auto"
-          src="/assets/img//uniswap-wallet.PNG"
-          alt=""
-        />
       </div>
 
       <div
