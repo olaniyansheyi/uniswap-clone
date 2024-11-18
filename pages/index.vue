@@ -3,5 +3,4 @@
   <DirectToDefi />
   <TrustedByMillions />
   <ConnectWithUs />
-  <Footer />
 </template>
