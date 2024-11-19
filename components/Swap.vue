@@ -1,12 +1,13 @@
 <template>
   <div
-    class="rounded-2xl bg-white p-t flex flex-col items-center justify-center w-full sm:w-[450px] lg:w-[500px] mx-auto z-10 p-4 gap-y-1 relative"
+    class="rounded-2xl bg-bgLight p-t flex flex-col items-center justify-center w-full sm:w-[450px] lg:w-[500px] mx-auto z-10 p-4 gap-y-1 relative"
   >
     <!-- First Section, Order Controlled by swap State -->
     <div
       :class="[
-        'rounded-2xl bg-[#e2e0e014] bottom-[1px] border border-solid border-[rgba(34, 34, 34, 0.08)] flex justify-between items-center w-full py-3 px-4',
+        'rounded-2xl bg-[#5a565614] bottom-[1px] border border-solid  flex justify-between items-center w-full py-3 px-4',
         swap ? 'order-2' : 'order-1',
+        themeStore.theme === 'dark' ? 'border-[#4943436e]' : '',
       ]"
     >
       <div
@@ -23,7 +24,7 @@
 
       <div
         @click="menuStore.handleToggleOpenTokensModal"
-        class="rounded-full bg-white bg-[#e2e0e014] bottom-[1px] border border-solid border-[rgba(34, 34, 34, 0.08)] flex px-3 py-2 justify-center items-center gap-x-2 cursor-pointer"
+        class="rounded-full bg-[#e2e0e014] bottom-[1px] border border-solid border-[#4943436e] flex px-3 py-2 justify-center items-center gap-x-2 cursor-pointer"
       >
         <img src="~/assets/img/eth.png" class="w-[28px] h-[28px]" />
         <div class="flex">
@@ -88,17 +89,20 @@
       <!-- Toggle button to swap sections -->
       <button
         @click="toggleSwap"
-        class="absolute left-1/2 transform -translate-x-1/2 top-[34%] flex justify-center items-center p-2 rounded-2xl border-solid border-white border-[4px] bg-[#91909014]"
+        class="absolute left-1/2 transform -translate-x-1/2 top-[34%] flex justify-center items-center p-2 rounded-2xl border-solid border-[4px] bg-[#91909014]"
+        :class="
+          themeStore.theme === 'dark' ? 'border-[#4943436e]' : 'border-white'
+        "
       >
         <svg
           viewBox="0 0 24 24"
           fill="none"
           stroke-width="2"
-          style="
-            color: rgb(34, 34, 34);
-            width: 24px;
-            height: 24px;
-            transform: rotateZ(0deg);
+          style="width: 24px; height: 24px; transform: rotateZ(0deg)"
+          :style="
+            themeStore.theme === 'dark'
+              ? 'color: #FFFFFF;'
+              : 'color: rgb(34, 34, 34);'
           "
         >
           <path
@@ -130,6 +134,10 @@
 
 <script setup>
 import { useMenuStore } from "~/stores/menu";
+
+import { useThemeStore } from "~/stores/theme";
+
+const themeStore = useThemeStore();
 
 const swap = ref(false);
 const menuStore = useMenuStore();

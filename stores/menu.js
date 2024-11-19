@@ -7,6 +7,7 @@ export const useMenuStore = defineStore("menu", {
     openGlobalPreference: false,
     openSearch: false,
     openTokensModal: false,
+    isDark: false,
   }),
   actions: {
     handleToggleMenu() {

@@ -10,7 +10,7 @@
         class="w-full lg:w-[30%] py-5 px-6 flex justify-between flex-col gap-y-4 rounded-3xl bg-[#f172fa1e] font-medium text-[#FF4D00] h-[210px]"
       >
         <button
-          class="w-auto me-auto px-5 py-3 flex gap-x-3 bg-white rounded-full"
+          class="w-auto me-auto px-5 py-3 flex gap-x-3 bg-bgSec rounded-full"
         >
           <svg
             width="24"
@@ -33,7 +33,7 @@
         class="w-full lg:w-[30%] py-5 px-6 flex justify-between flex-col gap-y-4 rounded-3xl bg-[#9794971e] font-medium text-textSecondary h-[210px]"
       >
         <button
-          class="w-auto me-auto px-5 py-3 flex gap-x-3 bg-white rounded-full"
+          class="w-auto me-auto px-5 py-3 flex gap-x-3 bg-bgSec rounded-full"
         >
           <span>Blog</span>
         </button>
@@ -46,7 +46,7 @@
         class="w-full lg:w-[30%] py-5 px-6 flex justify-between flex-col gap-y-4 rounded-3xl bg-[#fd72ff1e] font-medium text-primary h-[210px]"
       >
         <button
-          class="w-auto me-auto px-5 py-3 flex gap-x-3 bg-white rounded-full"
+          class="w-auto me-auto px-5 py-3 flex gap-x-3 bg-bgSec rounded-full"
         >
           <svg
             width="24"

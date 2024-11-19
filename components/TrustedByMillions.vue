@@ -17,7 +17,7 @@
           volume across thousands of tokens on Ethereum and 7+ additional chains
         </p>
         <button
-          class="py-3 px-7 rounded-full bg-[#F9F9F9] text-textPrimary font-medium flex gap-x-2 justify-center items-center"
+          class="py-3 px-7 rounded-full bg-bgSec text-textPrimary font-medium flex gap-x-2 justify-center items-center"
         >
           <span> Learn more</span>
           <svg
@@ -41,25 +41,25 @@
         class="flex justify-center items-center flex-wrap gap-5 w-full sm:w-[48%] order-1 sm:order-2"
       >
         <div
-          class="bg-[#F9F9F9] rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%]"
+          class="bg-bgSec rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%]"
         >
           <p class="text-textSecondary text-lg">All time volume</p>
           <p class="text-textPrimary text-3xl font-semibold">$2.2T</p>
         </div>
         <div
-          class="bg-[#F9F9F9] rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%] font-semibold"
+          class="bg-bgSec rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%] font-semibold"
         >
           <p class="text-textSecondary text-lg">All time swappers</p>
           <p class="text-textPrimary text-3xl font-semibold">16.6M</p>
         </div>
         <div
-          class="bg-[#F9F9F9] rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%]"
+          class="bg-bgSec rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%]"
         >
           <p class="text-textSecondary text-lg">All time LPfees</p>
           <p class="text-textPrimary text-3xl font-semibold">$3.4B</p>
         </div>
         <div
-          class="bg-[#F9F9F9] rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%] text-[#40B66B]"
+          class="bg-bgSec rounded-2xl p-4 flex flex-col justify-between h-[220px] w-[45%] text-[#40B66B]"
         >
           <p class="text-lg">24H volume</p>
           <p class="text-3xl font-semibold">$1.4B</p>

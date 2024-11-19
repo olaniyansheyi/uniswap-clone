@@ -8,7 +8,7 @@
     <div
       class="bg-bgLight fixed left-0 right-0 bottom-0 top-[65%] rounded-t-2xl sm:bottom-auto sm:rounded-2xl z-20 pt-10 sm:py-6 px-6 overflow-y-auto sm:shadow-xl shadow-black sm:top-[11%] sm:right-[3%] sm:left-auto sm:w-[330px] tracking-wider"
     >
-      <h1 class="text-lg font-medium">Global preferences</h1>
+      <h1 class="text-lg font-medium text-textPrimary">Global preferences</h1>
       <div class="py-4 flex flex-col gap-y-4 w-full cursor-pointer">
         <div class="w-full flex justify-between items-center">
           <p class="text-textSecondary text-lg">Theme</p>
@@ -16,12 +16,16 @@
             class="flex items-center justify-center gap-x-4 p-1 rounded-full border-[1px] border-[#22222215]"
           >
             <div
+              @click="themeStore.resetToAuto"
               class="h-[29px] w-[60px] flex justify-center items-center rounded-full"
+              :class="themeStore.auto ? 'bg-[#4943436e]' : ''"
             >
               <h1 class="text-textPrimary text-sm">Auto</h1>
             </div>
             <div
+              @click="themeStore.handleToggleTheme"
               class="h-[29px] w-[60px] flex justify-center items-center rounded-full"
+              :class="themeStore.theme === 'light' ? 'bg-[#4943436e]' : ''"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -37,7 +41,13 @@
             </div>
 
             <div
-              class="h-[29px] w-[60px] flex justify-center items-center rounded-full bg-[#2222220D]"
+              @click="themeStore.handleToggleTheme"
+              class="h-[29px] w-[60px] flex justify-center items-center rounded-full"
+              :class="
+                themeStore.theme === 'dark' && !themeStore.auto
+                  ? 'bg-[#4943436e]'
+                  : ''
+              "
             >
               <svg
                 viewBox="0 0 24 24"
@@ -70,5 +80,8 @@
 
 <script setup>
 import { useMenuStore } from "~/stores/menu";
+import { useThemeStore } from "~/stores/theme";
+
+const themeStore = useThemeStore();
 const menuStore = useMenuStore();
 </script>

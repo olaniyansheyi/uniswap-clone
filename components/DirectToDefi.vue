@@ -7,10 +7,11 @@
     </h1>
     <div class="w-full justify-center items-center flex gap-5 flex-wrap">
       <div
-        class="py-6 px-4 flex justify-start items-start flex-col gap-y-4 rounded-3xl bg-[#f1f6f8] font-medium sm:w-[45%]"
+        class="py-6 px-4 flex justify-start items-start flex-col gap-y-4 rounded-3xl font-medium sm:w-[45%]"
+        :class="themeStore.theme === 'dark' ? 'bg-[#393f41]' : 'bg-[#c1d9df]'"
       >
         <button
-          class="py-2 px-5 rounded-full bg-white text-[#2ABDFF] font-medium"
+          class="py-2 px-5 rounded-full bg-bgLight text-[#2ABDFF] font-medium"
         >
           Web app
         </button>
@@ -21,7 +22,7 @@
           class="flex flex-col gap-y-3 py-5 w-full justify-center items-center"
         >
           <div
-            class="bg-white rounded-3xl p-3 flex justify-between items-center w-full"
+            class="bg-bgLight rounded-3xl p-3 flex justify-between items-center w-full"
           >
             <div class="flex gap-x-2 items-center justify-center">
               <img src="~/assets/img/eth.png" class="w-[20px] h-[20px]" />
@@ -31,7 +32,7 @@
             <h1 class="text-textPrimary font-medium text-lg">$3,149.65</h1>
           </div>
           <div
-            class="bg-white rounded-3xl p-3 flex justify-between items-center w-full"
+            class="bg-bgLight rounded-3xl p-3 flex justify-between items-center w-full"
           >
             <div class="flex gap-x-2 items-center justify-center">
               <img src="~/assets/img/eth.png" class="w-[20px] h-[20px]" />
@@ -41,7 +42,7 @@
             <h1 class="text-textPrimary font-medium text-lg">$3,149.65</h1>
           </div>
           <div
-            class="bg-white rounded-3xl p-3 flex justify-between items-center w-full"
+            class="bg-bgLight rounded-3xl p-3 flex justify-between items-center w-full"
           >
             <div class="flex gap-x-2 items-center justify-center">
               <img src="~/assets/img/eth.png" class="w-[20px] h-[20px]" />
@@ -51,7 +52,7 @@
             <h1 class="text-textPrimary font-medium text-lg">$3,149.65</h1>
           </div>
           <div
-            class="bg-white rounded-3xl p-3 flex justify-between items-center w-full"
+            class="bg-bgLight rounded-3xl p-3 flex justify-between items-center w-full"
           >
             <div class="flex gap-x-2 items-center justify-center">
               <img src="~/assets/img/eth.png" class="w-[20px] h-[20px]" />
@@ -67,7 +68,7 @@
         class="sm:w-[45%] py-6 px-4 flex justify-start items-start flex-col gap-y-4 rounded-3xl bg-[#fd72ff1e] font-medium text-primary"
       >
         <button
-          class="py-2 px-5 rounded-full bg-white text-primary font-medium"
+          class="py-2 px-5 rounded-full bg-bgLight text-primary font-medium"
         >
           Uniswap wallet
         </button>
@@ -75,13 +76,20 @@
         <h1 class="tracking-wide text-2xl font-medium">
           The wallet built for swapping. Available on ios and Android.
         </h1>
+        <div class="w-full flex justify-center items-center">
+          <img
+            src="~/assets/img/uniswap-wallet.png"
+            alt=""
+            class="rounded-2xl"
+          />
+        </div>
       </div>
 
       <div
         class="sm:w-[45%] py-10 px-6 flex justify-start items-start flex-col gap-y-4 rounded-3xl bg-[#e4f7f3] font-medium text-[#00C3A0]"
       >
         <button
-          class="py-2 px-5 rounded-full bg-white text-[#00C3A0] font-medium"
+          class="py-2 px-5 rounded-full bg-bgLight text-[#00C3A0] font-medium"
         >
           Developer docs
         </button>
@@ -94,7 +102,7 @@
       <div
         class="sm:w-[45%] py-6 px-6 flex justify-start items-start flex-col gap-y-4 rounded-3xl bg-[#e7e0f5] font-medium text-[#9E62FF]"
       >
-        <button class="py-2 px-5 rounded-full bg-white font-medium">
+        <button class="py-2 px-5 rounded-full bg-bgLight font-medium">
           Liquidity
         </button>
 
@@ -106,3 +114,9 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { useThemeStore } from "~/stores/theme";
+
+const themeStore = useThemeStore();
+</script>

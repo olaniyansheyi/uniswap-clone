@@ -20,7 +20,7 @@
 
       <!-- Blurred Overlay -->
       <div
-        class="absolute inset-0 bg-white bg-opacity-10 backdrop-blur-md"
+        class="absolute inset-0 bg-bgLight bg-opacity-10 backdrop-blur-md "
       ></div>
 
       <!-- Content on Top of Blur -->

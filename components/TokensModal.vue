@@ -29,7 +29,12 @@
           <input
             type="text"
             placeholder="Search Tokens"
-            class="w-full rounded-full text-textSecondary py-[14px] px-4 pl-12 outline-none bg-[#e2dddd3b]"
+            class="w-full rounded-full text-textSecondary py-[14px] px-4 pl-12 outline-none"
+            :class="
+              themeStore.theme === 'dark'
+                ? 'bg-[#413c3c6e] '
+                : 'bg-[#e2dddd3b] '
+            "
           />
         </div>
       </div>
@@ -45,6 +50,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
+          :class="themeStore.theme === 'dark' ? 'color-white ' : ''"
         >
           <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
           <polyline points="17 6 23 6 23 12"></polyline>
@@ -53,9 +59,14 @@
           Popular tokens
         </p>
       </div>
-      <div class="my-3 w-full flex justify-between items-center font-medium">
+      <div
+        class="my-3 w-full flex justify-between items-center font-medium text-textPrimary"
+      >
         <div
-          class="w-[70px] py-2 flex justify-center items-center bg-[#e2dddd3b] rounded-2xl"
+          class="w-[65px] py-2 flex justify-center items-center rounded-2xl"
+          :class="
+            themeStore.theme === 'dark' ? 'bg-[#413c3c6e] ' : 'bg-[#e2dddd3b] '
+          "
         >
           <div class="flex flex-col justify-center items-center">
             <img src="~/assets/img/eth.png" class="w-[28px] h-[28px]" />
@@ -63,7 +74,10 @@
           </div>
         </div>
         <div
-          class="w-[70px] py-2 flex justify-center items-center bg-[#e2dddd3b] rounded-2xl"
+          class="w-[65px] py-2 flex justify-center items-center rounded-2xl"
+          :class="
+            themeStore.theme === 'dark' ? 'bg-[#413c3c6e] ' : 'bg-[#e2dddd3b] '
+          "
         >
           <div class="flex flex-col justify-center items-center">
             <img src="~/assets/img/usdc.png" class="w-[28px] h-[28px]" />
@@ -71,7 +85,10 @@
           </div>
         </div>
         <div
-          class="w-[70px] py-2 flex justify-center items-center bg-[#e2dddd3b] rounded-2xl"
+          class="w-[65px] py-2 flex justify-center items-center rounded-2xl"
+          :class="
+            themeStore.theme === 'dark' ? 'bg-[#413c3c6e] ' : 'bg-[#e2dddd3b] '
+          "
         >
           <div class="flex flex-col justify-center items-center">
             <img src="~/assets/img/tether.png" class="w-[28px] h-[28px]" />
@@ -79,7 +96,10 @@
           </div>
         </div>
         <div
-          class="w-[70px] py-2 flex justify-center items-center bg-[#e2dddd3b] rounded-2xl"
+          class="w-[65px] py-2 flex justify-center items-center rounded-2xl"
+          :class="
+            themeStore.theme === 'dark' ? 'bg-[#413c3c6e] ' : 'bg-[#e2dddd3b] '
+          "
         >
           <div class="flex flex-col justify-center items-center">
             <img src="~/assets/img/eth.png" class="w-[28px] h-[28px]" />
@@ -87,7 +107,10 @@
           </div>
         </div>
         <div
-          class="w-[70px] py-2 flex justify-center items-center bg-[#e2dddd3b] rounded-2xl"
+          class="w-[65px] py-2 flex justify-center items-center rounded-2xl"
+          :class="
+            themeStore.theme === 'dark' ? 'bg-[#413c3c6e] ' : 'bg-[#e2dddd3b] '
+          "
         >
           <div class="flex flex-col justify-center items-center">
             <img src="~/assets/img/eth.png" class="w-[28px] h-[28px]" />
@@ -119,7 +142,12 @@
         class="w-full flex flex-col gap-y-1 justify-center items-center font-medium py-3"
       >
         <div
-          class="w-full me-auto flex justify-start items-start gap-x-4 p-2 rounded-2xl hover:bg-[#e2dddd3b]"
+          class="w-full me-auto flex justify-start items-start gap-x-4 p-2 rounded-2xl"
+          :class="
+            themeStore.theme === 'dark'
+              ? 'hover:bg-[#413c3c6e] '
+              : 'hover:bg-[#e2dddd3b] '
+          "
         >
           <img src="~/assets/img/usdc.png" class="w-[40px] h-[40px]" />
           <div class="flex flex-col justify-start items-start">
@@ -179,6 +207,15 @@
 
 <script setup>
 import { useMenuStore } from "~/stores/menu";
+import { useThemeStore } from "~/stores/theme";
+
+const themeStore = useThemeStore();
 
 const menuStore = useMenuStore();
 </script>
+
+<style scoped>
+.color-white {
+  color: white;
+}
+</style>

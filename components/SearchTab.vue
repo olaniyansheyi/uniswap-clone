@@ -21,6 +21,7 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              :class="themeStore.theme === 'dark' ? 'color-white' : ''"
             >
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -44,6 +45,7 @@
           stroke-linecap="round"
           stroke-linejoin="round"
           class="sc-dfauwV KHClm cursor-pointer"
+          :class="themeStore.theme === 'dark' ? 'color-white' : ''"
         >
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -60,6 +62,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
+          :class="themeStore.theme === 'dark' ? 'color-white' : ''"
         >
           <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
           <polyline points="17 6 23 6 23 12"></polyline>
@@ -173,6 +176,15 @@
 
 <script setup>
 import { useMenuStore } from "~/stores/menu";
+import { useThemeStore } from "~/stores/theme";
+
+const themeStore = useThemeStore();
 
 const menuStore = useMenuStore();
 </script>
+
+<style scoped>
+.color-white {
+  color: white;
+}
+</style>

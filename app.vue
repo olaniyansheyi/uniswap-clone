@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative bg-bgLight">
     <NuxtLayout>
       <NuxtPage />
       <Menu v-if="menuStore.openMenu" />
@@ -12,6 +12,11 @@
 
 <script setup>
 import { useMenuStore } from "~/stores/menu";
+import { useThemeStore } from "~/stores/theme";
 
 const menuStore = useMenuStore();
+const themeStore = useThemeStore();
+onMounted(() => {
+  themeStore.initializeTheme();
+});
 </script>

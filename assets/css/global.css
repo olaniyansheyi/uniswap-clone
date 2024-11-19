@@ -7,3 +7,16 @@
   padding: 0;
   margin: 0;
 }
+:root {
+  --color-bg: #ffffff;
+  --color-text-primary: #000000;
+  --color-text-secondary: #7d7d7d;
+  --color-bg-2: #ffffff;
+}
+
+.dark {
+  --color-bg: #1a1a1a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9b9b9b;
+  --color-bg-2: #4943436e;
+}
