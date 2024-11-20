@@ -41,10 +41,10 @@
       </div>
 
       <!-- Tokens List -->
-      <div v-if="loading" class="text-center">Loading...</div>
+      <div v-if="tokenStore.loading" class="text-center">Loading...</div>
       <div v-else>
         <div
-          v-for="token in tokens"
+          v-for="token in tokenStore.tokens"
           :key="token.address"
           class="w-full flex items-center gap-x-4 p-2 rounded-2xl hover:bg-[#e2dddd3b]"
         >
@@ -67,26 +67,19 @@ import { useTokenStore } from "~/stores/token";
 
 const themeStore = useThemeStore();
 const menuStore = useMenuStore();
-const {
-  tokens,
-  loading,
-  hasMore,
-  fetchPopularTokens,
-  searchTokens,
-  resetTokens,
-} = useTokenStore();
 
 const query = ref("");
 const debounceTimeout = ref(null);
+const tokenStore = useTokenStore();
 
 const handleSearch = () => {
   clearTimeout(debounceTimeout.value);
   debounceTimeout.value = setTimeout(() => {
     if (!query.value.trim()) {
-      resetTokens();
-      fetchPopularTokens();
+      tokenStore.resetTokens();
+      tokenStore.fetchPopularTokens();
     } else {
-      searchTokens(query.value);
+      tokenStore.searchTokens(query.value);
     }
   }, 300); // Debounce API calls
 };
@@ -94,11 +87,11 @@ const handleSearch = () => {
 const handleScroll = (event) => {
   const { scrollTop, scrollHeight, clientHeight } = event.target;
   if (scrollTop + clientHeight >= scrollHeight - 10) {
-    fetchPopularTokens();
+    tokenStore.fetchPopularTokens();
   }
 };
 
 onMounted(() => {
-  fetchPopularTokens(); // Fetch first 20 tokens on mount
+  tokenStore.fetchPopularTokens(); // Fetch first 20 tokens on mount
 });
 </script>

@@ -1,91 +1,106 @@
-import { ref, computed } from "vue";
+import { defineStore } from "pinia";
 
-export const useTokenStore = () => {
-  const tokens = ref([]);
-  const loading = ref(false);
-  const page = ref(1); // Pagination for popular tokens
-  const hasMore = ref(true); // To handle pagination
+export const useTokenStore = defineStore("token", {
+  // State
+  state: () => ({
+    tokens: [],
+    loading: false,
+    page: 1, // Pagination for popular tokens
+    hasMore: true, // To handle pagination
+    buyData: {},
+    sellData: {},
+    COINGECKO_BASE_URL: "https://api.coingecko.com/api/v3",
+  }),
 
-  const COINGECKO_BASE_URL = "https://api.coingecko.com/api/v3";
+  // Actions
+  actions: {
+    /**
+     * Fetch the top 20 popular tokens by market cap
+     */
+    async fetchPopularTokens() {
+      if (this.loading || !this.hasMore) return; // Prevent duplicate requests
+      this.loading = true;
 
-  /**
-   * Fetch the top 20 popular tokens by market cap
-   */
-  const fetchPopularTokens = async () => {
-    if (loading.value || !hasMore.value) return; // Prevent duplicate requests
-    loading.value = true;
-
-    try {
-      const response = await fetch(
-        `${COINGECKO_BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=40&page=${page.value}&sparkline=false`
-      );
-      const data = await response.json();
-
-      if (data.length < 0) hasMore.value = false; // Stop fetching if less than 20 tokens are returned
-
-      tokens.value = [
-        ...tokens.value,
-        ...data.map((token) => ({
-          address: token.id,
-          symbol: token.symbol,
-          name: token.name,
-          image: token.image,
-          marketCap: token.market_cap,
-          price: token.current_price,
-          volume: token.total_volume,
-        })),
-      ];
-
-      page.value += 1; // Move to the next page
-    } catch (error) {
-      console.error("Error fetching popular tokens:", error);
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  /**
-   * Search tokens by name or symbol
-   */
-  const searchTokens = async (query) => {
-    if (loading.value) return;
-    loading.value = true;
-
-    try {
-      const response = await fetch(
-        `${COINGECKO_BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-      );
-      const data = await response.json();
-
-      // Filter tokens by name or symbol
-      tokens.value = data.filter((token) => {
-        return (
-          token.name.toLowerCase().includes(query.toLowerCase()) ||
-          token.symbol.toLowerCase().includes(query.toLowerCase())
+      try {
+        const response = await fetch(
+          `${this.COINGECKO_BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=40&page=${this.page}&sparkline=false`
         );
-      });
-    } catch (error) {
-      console.error("Error searching tokens:", error);
-    } finally {
-      loading.value = false;
-    }
-  };
+        const data = await response.json();
 
-  /**
-   * Reset tokens and pagination
-   */
-  const resetTokens = () => {
-    tokens.value = [];
-    page.value = 1;
-    hasMore.value = true;
-  };
+        if (data.length === 0) this.hasMore = false; // Stop fetching if no tokens are returned
 
-  return {
-    tokens: computed(() => tokens.value),
-    loading: computed(() => loading.value),
-    hasMore: computed(() => hasMore.value),
-    fetchPopularTokens,
-    searchTokens,
-    resetTokens,
-  };
-};
+        this.tokens = [
+          ...this.tokens,
+          ...data.map((token) => ({
+            address: token.id,
+            symbol: token.symbol,
+            name: token.name,
+            image: token.image,
+            marketCap: token.market_cap,
+            price: token.current_price,
+            volume: token.total_volume,
+          })),
+        ];
+
+        this.page += 1; // Move to the next page
+      } catch (error) {
+        console.error("Error fetching popular tokens:", error);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    /**
+     * Search tokens by name or symbol
+     */
+    /**
+     * Search tokens by name or symbol using CoinGecko's Search API
+     */
+    async searchTokens(query) {
+      if (this.loading) return;
+      this.loading = true;
+
+      try {
+        // Call CoinGecko's search endpoint
+        const response = await fetch(
+          `${this.COINGECKO_BASE_URL}/search?query=${query}`
+        );
+        const data = await response.json();
+
+        // Map the returned data into the desired structure
+        this.tokens = data.coins.map((coin) => ({
+          address: coin.id, // CoinGecko uses `id` as a unique identifier
+          symbol: coin.symbol,
+          name: coin.name,
+          image: coin.thumb, // Use thumbnail image for tokens
+          marketCap: null, // CoinGecko search API does not provide market cap
+          price: null, // CoinGecko search API does not provide price
+          volume: null, // CoinGecko search API does not provide volume
+        }));
+      } catch (error) {
+        console.error(
+          "Error searching tokens using CoinGecko's search API:",
+          error
+        );
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    /**
+     * Reset tokens and pagination
+     */
+    resetTokens() {
+      this.tokens = [];
+      this.page = 1;
+      this.hasMore = true;
+    },
+  },
+
+  // Getters (computed properties)
+  getters: {
+    getTokens: (state) => state.tokens,
+    isLoading: (state) => state.loading,
+    hasMoreTokens: (state) => state.hasMore,
+  },
+});
