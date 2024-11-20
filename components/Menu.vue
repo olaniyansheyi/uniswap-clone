@@ -76,7 +76,17 @@
             </div>
           </div>
         </div>
-        <h1 class="block sm:hidden">Display settings</h1>
+        <h1
+          @click="
+            () => {
+              menuStore.handleToggleMenu();
+              menuStore.handleToggleGlobalPreference();
+            }
+          "
+          class="block sm:hidden"
+        >
+          Display settings
+        </h1>
 
         <div
           class="w-full rounded-xl flex justify-start items-center bg-[#fd72ff1e] text-primary py-4 px-3"

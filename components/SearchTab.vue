@@ -28,6 +28,7 @@
             </svg>
           </div>
           <input
+            v-model="searchQuery"
             type="text"
             placeholder="Search Tokens"
             class="w-full rounded-full bg-transparent text-textSecondary py-[8px] px-4 pl-12 outline-none"
@@ -177,10 +178,18 @@
 <script setup>
 import { useMenuStore } from "~/stores/menu";
 import { useThemeStore } from "~/stores/theme";
+import { useTokenStore } from "~/stores/token";
 
 const themeStore = useThemeStore();
 
 const menuStore = useMenuStore();
+
+const searchQuery = ref("");
+const tokenStore = useTokenStore();
+
+onMounted(() => {
+  tokenStore.fetchPopularTokens();
+});
 </script>
 
 <style scoped>

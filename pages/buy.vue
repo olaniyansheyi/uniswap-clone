@@ -39,17 +39,17 @@
               class="flex gap-x-2 justify-center items-center font-medium pt-4"
             >
               <button
-                class="text-sm px-4 outline-none py-[5px] rounded-full bottom-[1px] bg-white text-textPrimary"
+                class="text-sm px-4 outline-none py-[5px] rounded-full bottom-[1px] bg-bgSec text-textPrimary"
               >
                 $100
               </button>
               <button
-                class="text-sm px-4 outline-none py-[5px] rounded-full bottom-[1px] bg-white text-textPrimary"
+                class="text-sm px-4 outline-none py-[5px] rounded-full bottom-[1px] bg-bgSec text-textPrimary"
               >
                 $300
               </button>
               <button
-                class="text-sm px-4 outline-none py-[5px] rounded-full bottom-[1px] bg-white text-textPrimary"
+                class="text-sm px-4 outline-none py-[5px] rounded-full bottom-[1px] bg-bgSec text-textPrimary"
               >
                 $1000
               </button>
@@ -59,9 +59,9 @@
 
         <!-- Get Started button -->
         <button
-          class="rounded-lg py-3 px-3 text-primary bg-[#fd72ff1e] text-center font-semibold text-lg w-full order-4 flex"
+          class="rounded-lg py-3 px-3 text-primary bg-[#fd72ff1e] text-center flex justify-center items-center font-semibold text-lg w-full order-4"
         >
-          Connect wallet
+          <span>Connect wallet</span>
         </button>
       </div>
     </div>

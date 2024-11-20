@@ -66,7 +66,7 @@
 
         <!-- Get Started button -->
         <button
-          class="rounded-lg py-3 px-3 text-primary bg-[#fd72ff1e] text-center font-semibold text-lg w-full order-4 flex"
+          class="rounded-lg py-3 px-3 text-primary bg-[#fd72ff1e] text-center font-semibold text-lg w-full order-4"
         >
           Connect wallet
         </button>
