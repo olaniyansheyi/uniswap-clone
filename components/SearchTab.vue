@@ -187,8 +187,41 @@ const menuStore = useMenuStore();
 const searchQuery = ref("");
 const tokenStore = useTokenStore();
 
+
+
+const {
+  tokens,
+  loading,
+  hasMore,
+  fetchPopularTokens,
+  searchTokens,
+  resetTokens,
+} = useTokenStore();
+
+
+const debounceTimeout = ref(null);
+
+const handleSearch = () => {
+  clearTimeout(debounceTimeout.value);
+  debounceTimeout.value = setTimeout(() => {
+    if (!query.value.trim()) {
+      resetTokens();
+      fetchPopularTokens();
+    } else {
+      searchTokens(query.value);
+    }
+  }, 300); // Debounce API calls
+};
+
+const handleScroll = (event) => {
+  const { scrollTop, scrollHeight, clientHeight } = event.target;
+  if (scrollTop + clientHeight >= scrollHeight - 10) {
+    fetchPopularTokens();
+  }
+};
+
 onMounted(() => {
-  tokenStore.fetchPopularTokens();
+  fetchPopularTokens(); // Fetch first 20 tokens on mount
 });
 </script>
 
