@@ -2,7 +2,7 @@
   <div class="fixed inset-0 z-50">
     <div
       class="z-10 fixed inset-0 bg-black bg-opacity-50"
-      @click="menuStore.handleToggleOpenTokensModal"
+      @click="tokenStore.handleCloseModal"
     ></div>
 
     <div
@@ -46,6 +46,16 @@
         <div
           v-for="token in tokenStore.tokens"
           :key="token.address"
+          @click="
+            () => {
+              tokenStore.handleSelectedToken({
+                symbol: token.symbol,
+                image: token.image,
+                price: token.price,
+              });
+              tokenStore.handleCloseModal();
+            }
+          "
           class="w-full flex items-center gap-x-4 p-2 rounded-2xl hover:bg-[#e2dddd3b]"
         >
           <img :src="token.image" class="w-[40px] h-[40px]" />

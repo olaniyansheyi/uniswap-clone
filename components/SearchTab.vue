@@ -103,7 +103,9 @@
             </div>
           </div>
           <div class="flex flex-col justify-start items-start font-medium">
-            <p class="text-textPrimary">${{ formatPrice(token.price) }}</p>
+            <p class="text-textPrimary">
+              ${{ tokenStore.formatPrice(token.price) }}
+            </p>
             <div class="flex items-center justify-center gap-x-1">
               <svg
                 width="16"
@@ -164,18 +166,6 @@ const handleScroll = (event) => {
 onMounted(() => {
   tokenStore.fetchPopularTokens(); // Fetch first 20 tokens on mount
 });
-
-const formatPrice = (price) => {
-  // If price is not a valid number, return 0
-  if (isNaN(price) || price === null || price === undefined) {
-    return "0.00";
-  }
-
-  // Format the number with commas and limit to 2 decimal places
-  return price
-    .toFixed(2) // Ensure 2 decimal places
-    .replace(/\d(?=(\d{3})+\.)/g, "$&,"); // Add commas for thousands
-};
 </script>
 
 <style scoped>

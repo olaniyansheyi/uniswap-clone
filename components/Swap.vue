@@ -15,20 +15,33 @@
       >
         <p>{{ swap ? "Buy" : "Sell" }}</p>
         <input
-          class="text-lg text-textPrimary placeholder:text-3xl outline-none bg-transparent"
-          type="text"
+          class="text-textSecondary text-3xl placeholder:text-3xl outline-none bg-transparent"
           placeholder="0"
+          v-model="sellUnit"
+          type="number"
+          @input="handleSellUnitInput"
         />
-        <p>$0</p>
+        <p class="text-textSecondary text-lg">
+          ${{
+            tokenStore.formatPrice(
+              tokenStore.selectedTokens.swap.sell?.price * sellUnit
+            )
+          }}
+        </p>
       </div>
 
       <div
-        @click="menuStore.handleToggleOpenTokensModal"
+        @click="tokenStore.handleToggleOpenTokensModal('sell')"
         class="rounded-full bg-[#e2e0e014] bottom-[1px] border border-solid border-[#4943436e] flex px-3 py-2 justify-center items-center gap-x-2 cursor-pointer"
       >
-        <img src="~/assets/img/eth.png" class="w-[28px] h-[28px]" />
+        <img
+          :src="tokenStore.selectedTokens.swap.sell.image"
+          class="w-[28px] h-[28px]"
+        />
         <div class="flex">
-          <h1 class="text-textPrimary font-medium gap-x-1">ETH</h1>
+          <h1 class="text-textPrimary font-medium gap-x-1">
+            {{ tokenStore.selectedTokens.swap.sell.symbol }}
+          </h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20px"
@@ -59,14 +72,24 @@
       >
         <p>{{ swap ? "Sell" : "Buy" }}</p>
         <input
-          class="text-lg text-textPrimary placeholder:text-3xl outline-none bg-transparent"
-          type="text"
+          class="text-textSecondary text-3xl placeholder:text-3xl outline-none bg-transparent"
+          v-model="buyUnit"
+          type="number"
+          @input="handleBuyUnitInput"
           placeholder="0"
         />
+        <p class="text-textSecondary text-lg">
+          ${{
+            tokenStore.formatPrice(
+              tokenStore.selectedTokens.swap.buy?.price * buyUnit
+            )
+          }}
+        </p>
       </div>
 
       <button
-        @click="menuStore.handleToggleOpenTokensModal"
+        v-if="tokenStore.selectedTokens.swap.buy === null"
+        @click="tokenStore.handleToggleOpenTokensModal('buy')"
         class="text-white px-3 py-2 rounded-full outline-none border-none flex justify-center items-center gap-x-2 font-medium bg-primary whitespace-nowrap text-xs"
       >
         <span>Select token</span>
@@ -85,6 +108,36 @@
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
+
+      <div
+        v-else
+        @click="tokenStore.handleToggleOpenTokensModal('buy')"
+        class="rounded-full bg-[#e2e0e014] bottom-[1px] border border-solid border-[#4943436e] flex px-3 py-2 justify-center items-center gap-x-2 cursor-pointer"
+      >
+        <img
+          :src="tokenStore.selectedTokens.swap.buy.image"
+          class="w-[28px] h-[28px]"
+        />
+        <div class="flex">
+          <h1 class="text-textPrimary font-medium gap-x-1">
+            {{ tokenStore.selectedTokens.swap.buy.symbol }}
+          </h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20px"
+            height="20px"
+            viewBox="0 0 24 24"
+            fill="none"
+            class="rotate-360 font-medium"
+            stroke="#7D7D7D"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
 
       <!-- Toggle button to swap sections -->
       <button
@@ -133,16 +186,77 @@
 </template>
 
 <script setup>
+import { ref, watch } from "vue";
 import { useMenuStore } from "~/stores/menu";
-
 import { useThemeStore } from "~/stores/theme";
+import { useTokenStore } from "~/stores/token";
 
+const tokenStore = useTokenStore();
 const themeStore = useThemeStore();
-
 const swap = ref(false);
 const menuStore = useMenuStore();
+
+const sellUnit = ref(0); // Input for sell amount
+const buyUnit = ref(0); // Input for buy amount
 
 const toggleSwap = () => {
   swap.value = !swap.value;
 };
+
+const handleSellUnitInput = () => {
+  const sellToken = tokenStore.selectedTokens.swap.sell;
+  const buyToken = tokenStore.selectedTokens.swap.buy;
+
+  if (sellToken && buyToken && sellToken.price && buyToken.price) {
+    const sellValue = parseFloat(sellUnit.value);
+    if (!isNaN(sellValue) && sellValue >= 0) {
+      // Calculate and limit to three decimals
+      const calculatedBuyUnit = sellValue * (sellToken.price / buyToken.price);
+      buyUnit.value = parseFloat(calculatedBuyUnit.toFixed(6));
+    } else {
+      buyUnit.value = 0; // Reset to avoid invalid state
+    }
+  } else {
+    buyUnit.value = 0; // Reset when prices or tokens are invalid
+  }
+};
+
+const handleBuyUnitInput = () => {
+  const sellToken = tokenStore.selectedTokens.swap.sell;
+  const buyToken = tokenStore.selectedTokens.swap.buy;
+
+  if (sellToken && buyToken && sellToken.price && buyToken.price) {
+    const buyValue = parseFloat(buyUnit.value);
+    if (!isNaN(buyValue) && buyValue >= 0) {
+      // Calculate and limit to three decimals
+      const calculatedSellUnit = buyValue * (buyToken.price / sellToken.price);
+      sellUnit.value = parseFloat(calculatedSellUnit.toFixed(6));
+    } else {
+      sellUnit.value = 0; // Reset to avoid invalid state
+    }
+  } else {
+    sellUnit.value = 0; // Reset when prices or tokens are invalid
+  }
+};
+
+// Watch for token changes and reset units
+watch(
+  () => tokenStore.selectedTokens.swap.sell,
+  (newValue) => {
+    if (newValue) {
+      sellUnit.value = 0;
+      buyUnit.value = 0;
+    }
+  }
+);
+
+watch(
+  () => tokenStore.selectedTokens.swap.buy,
+  (newValue) => {
+    if (newValue) {
+      sellUnit.value = 0;
+      buyUnit.value = 0;
+    }
+  }
+);
 </script>

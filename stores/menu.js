@@ -6,7 +6,7 @@ export const useMenuStore = defineStore("menu", {
     openMenu: false,
     openGlobalPreference: false,
     openSearch: false,
-    openTokensModal: false,
+
     isDark: false,
   }),
   actions: {
@@ -19,9 +19,6 @@ export const useMenuStore = defineStore("menu", {
 
     handleToggleOpenSearch() {
       this.openSearch = !this.openSearch;
-    },
-    handleToggleOpenTokensModal() {
-      this.openTokensModal = !this.openTokensModal;
     },
   },
 });
