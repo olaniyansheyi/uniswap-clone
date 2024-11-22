@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import ethImage from "@/assets/img/eth.png";
 
 export const useTokenStore = defineStore("token", {
   // State
@@ -7,7 +6,7 @@ export const useTokenStore = defineStore("token", {
     tokens: [],
     selectedTokens: {
       swap: {
-        sell: { symbol: "ETH", image: ethImage, price: 0 },
+        sell: null,
         buy: null,
       },
       buy: null,
@@ -153,40 +152,53 @@ export const useTokenStore = defineStore("token", {
       this.openTokensModal = !this.openTokensModal;
     },
 
-    // async searchTokens(query) {
-    //   if (this.loading) return;
-    //   this.loading = true;
+    async fetchTokenDetailsBySymbol(symbol) {
+      this.loading = true;
 
-    //   try {
-    //     // Call CoinGecko's search endpoint
-    //     const response = await fetch(
-    //       `${this.COINGECKO_BASE_URL}/search?query=${query}`
-    //     );
-    //     const data = await response.json();
+      try {
+        // Fetch all coins and find the token's ID by its symbol
+        const coinsListResponse = await fetch(
+          `${this.COINGECKO_BASE_URL}/coins/list`
+        );
+        const coinsList = await coinsListResponse.json();
 
-    //     // Map the returned data into the desired structure
-    //     this.tokens = data.coins.map((coin) => ({
-    //       address: coin.id, // CoinGecko uses `id` as a unique identifier
-    //       symbol: coin.symbol,
-    //       name: coin.name,
-    //       image: coin.thumb, // Use thumbnail image for tokens
-    //       marketCap: null, // CoinGecko search API does not provide market cap
-    //       price: null, // CoinGecko search API does not provide price
-    //       volume: null, // CoinGecko search API does not provide volume
-    //     }));
-    //   } catch (error) {
-    //     console.error(
-    //       "Error searching tokens using CoinGecko's search API:",
-    //       error
-    //     );
-    //   } finally {
-    //     this.loading = false;
-    //   }
-    // },
+        // Find the token by its symbol
+        const tokenData = coinsList.find(
+          (coin) => coin.symbol.toLowerCase() === symbol.toLowerCase()
+        );
 
-    /**
-     * Reset tokens and pagination
-     */
+        if (!tokenData) {
+          throw new Error("Token not found");
+        }
+
+        // Fetch detailed market data for the token
+        const marketDataResponse = await fetch(
+          `${this.COINGECKO_BASE_URL}/coins/markets?vs_currency=usd&ids=${tokenData.id}&sparkline=false`
+        );
+        const marketData = await marketDataResponse.json();
+
+        if (marketData.length === 0) {
+          throw new Error("Market data not available for this token");
+        }
+
+        // Map the data to your desired structure
+        const details = marketData[0];
+        this.tokenDetails = {
+          name: details.name,
+          symbol: details.symbol,
+          price: details.current_price,
+          marketCap: details.market_cap,
+          volume: details.total_volume,
+          fdv: details.fully_diluted_valuation,
+          image: details.image,
+        };
+      } catch (error) {
+        console.error("Error fetching token details:", error);
+        this.tokenDetails = {}; // Reset the details in case of an error
+      } finally {
+        this.loading = false;
+      }
+    },
 
     formatPrice(price) {
       // If price is not a valid number, return 0
@@ -194,7 +206,22 @@ export const useTokenStore = defineStore("token", {
         return "0.00";
       }
 
-      // Format the number with commas and limit to 2 decimal places
+      // Abbreviate trillions (T)
+      if (price >= 1_000_000_000_000) {
+        return `${(price / 1_000_000_000_000).toFixed(1)}T`; // Shorten to 6.7T
+      }
+
+      // Abbreviate billions (B)
+      if (price >= 1_000_000_000) {
+        return `${(price / 1_000_000_000).toFixed(1)}B`; // Shorten to 6.7B
+      }
+
+      // Abbreviate millions (M)
+      if (price >= 1_000_000) {
+        return `${(price / 1_000_000).toFixed(1)}M`; // Shorten to 4.5M
+      }
+
+      // Format smaller numbers with commas and 2 decimal places
       return price
         .toFixed(2) // Ensure 2 decimal places
         .replace(/\d(?=(\d{3})+\.)/g, "$&,"); // Add commas for thousands

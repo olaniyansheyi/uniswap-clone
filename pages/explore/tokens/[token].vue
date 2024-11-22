@@ -5,11 +5,17 @@
     <div
       class="flex justify-center items-center gap-x-3 gap-y-5 text-lg font-medium mt-16"
     >
-      <img src="~/assets/img/eth.png" class="w-[30px] h-[30px]" alt="" />
-      <h1 class="text-textPrimary">Ethereum</h1>
-      <h1 class="text-textSecondary">ETH</h1>
+      <img
+        :src="tokenStore.tokenDetails.image"
+        class="w-[30px] h-[30px]"
+        alt=""
+      />
+      <h1 class="text-textPrimary">{{ tokenStore.tokenDetails.name }}</h1>
+      <h1 class="text-textSecondary">{{ symbol }}</h1>
     </div>
-    <h1 class="text-textPrimary w-full text-4xl font-medium">$3,187.08</h1>
+    <h1 class="text-textPrimary w-full text-4xl font-medium">
+      ${{ tokenStore.formatPrice(tokenStore.tokenDetails.price) }}
+    </h1>
     <div class="w-full flex justify-center items-center gap-x-8">
       <img
         src="~/assets/img/tokens-chart.png"
@@ -27,23 +33,39 @@
     </div>
     <h1 class="text-textPrimary w-full text-4xl font-medium">Stats</h1>
     <div
-      class="w-full flex justify-start items-start gap-6 flex-wrap sm:justify-between"
+      class="w-full flex justify-start items-start gap-6 flex-wrap sm:justify-between font-medium"
     >
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
         <h1 class="text-textSecondary text-sm">TVL</h1>
-        <h1 class="text-textPrimary w-full text-4xl">$1.9B</h1>
+        <h1 class="text-textPrimary w-full text-4xl">
+          ${{ tokenStore.formatPrice(tokenStore.tokenDetails.volume) }}
+        </h1>
       </div>
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
         <h1 class="text-textSecondary text-sm">FDV</h1>
-        <h1 class="text-textPrimary w-full text-4xl">$383.5B</h1>
+        <h1 class="text-textPrimary w-full text-4xl">
+          ${{
+            tokenStore.tokenDetails.marketCap === 0 || null
+              ? "406.0B"
+              : tokenStore.formatPrice(tokenStore.tokenDetails.marketCap)
+          }}
+        </h1>
       </div>
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
         <h1 class="text-textSecondary text-sm">Market cap</h1>
-        <h1 class="text-textPrimary w-full text-4xl">$383.5B</h1>
+        <h1 class="text-textPrimary w-full text-4xl">
+          ${{
+            tokenStore.tokenDetails.marketCap === 0 || null
+              ? "406.0B"
+              : tokenStore.formatPrice(tokenStore.tokenDetails.marketCap)
+          }}
+        </h1>
       </div>
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
-        <h1 class="text-textSecondary text-sm">1 ay volume</h1>
-        <h1 class="text-textPrimary w-full text-4xl">$1.9B</h1>
+        <h1 class="text-textSecondary text-sm">1 day volume</h1>
+        <h1 class="text-textPrimary w-full text-4xl">
+          ${{ tokenStore.formatPrice(tokenStore.tokenDetails.volume) }}
+        </h1>
       </div>
     </div>
 
@@ -115,7 +137,20 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRoute } from "vue-router";
+import { useTokenStore } from "~/stores/token";
+const route = useRoute();
+
+const tokenStore = useTokenStore();
+const symbol = route.params.token;
+
+onMounted(() => {
+  if (symbol) {
+    tokenStore.fetchTokenDetailsBySymbol(symbol);
+  }
+});
+</script>
 
 <style scoped>
 .btn-bg {

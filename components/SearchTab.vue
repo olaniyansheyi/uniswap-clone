@@ -153,7 +153,7 @@ const handleSearch = () => {
     } else {
       tokenStore.searchTokens(searchQuery.value);
     }
-  }, 600); // Debounce API calls
+  }, 700); // Debounce API calls
 };
 
 const handleScroll = (event) => {
@@ -164,7 +164,7 @@ const handleScroll = (event) => {
 };
 
 onMounted(() => {
-  tokenStore.fetchPopularTokens(); // Fetch first 20 tokens on mount
+  tokenStore.fetchPopularTokens();
 });
 </script>
 

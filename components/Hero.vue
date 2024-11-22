@@ -15,12 +15,18 @@
         class="absolute top-1/4 right-1/4 w-[49px] h-[49px] bg-red-800 rounded-full opacity-80"
       ></div>
       <div
+        class="absolute top-1/4 left-1/4 w-[49px] h-[49px] bg-red-800 rounded-full opacity-80"
+      ></div>
+      <div
+        class="absolute bottom-1/4 left-1/4 w-[49px] h-[49px] bg-orange-400 rounded-full opacity-80"
+      ></div>
+      <div
         class="absolute bottom-1/4 left-1/4 w-[49px] h-[49px] bg-orange-400 rounded-full opacity-80"
       ></div>
 
       <!-- Blurred Overlay -->
       <div
-        class="absolute inset-0 bg-bgLight bg-opacity-10 backdrop-blur-md "
+        class="absolute inset-0 bg-bzgLight bg-opacity-10 backdrop-blur-md"
       ></div>
 
       <!-- Content on Top of Blur -->

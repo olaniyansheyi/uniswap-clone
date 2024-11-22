@@ -91,7 +91,7 @@ const handleSearch = () => {
     } else {
       tokenStore.searchTokens(query.value);
     }
-  }, 300); // Debounce API calls
+  }, 700); // Debounce API calls
 };
 
 const handleScroll = (event) => {
