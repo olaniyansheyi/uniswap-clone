@@ -347,7 +347,7 @@ watch(currentPrice, (newPrice) => {
 // Adjust the limit price by a percentage
 const adjustLimitPrice = (percentage) => {
   if (percentage === 0) {
-    limitPrice.value = limitPrice.value * 1;
+    limitPrice.value = currentPrice.value;
     recalculateAmounts();
     return;
   }
