@@ -16,11 +16,14 @@
             <p>limit price</p>
             <input
               class="text-lg text-textPrimary placeholder:text-3xl outline-none bg-transparent"
-              type="text"
+              type="tenumberxt"
               placeholder="0"
+              v-model.number="limitPrice"
+              @input="recalculateAmounts"
             />
             <div class="flex gap-x-2 justify-center items-center font-medium">
               <button
+                @click="adjustLimitPrice(0)"
                 class="text-sm px-3 outline-none py-1 rounded-full bottom-[1px] border border-solid"
                 :class="
                   themeStore.theme === 'dark' ? 'border-[#4943436e] ' : ''
@@ -33,21 +36,21 @@
                 class="text-sm px-3 outline-none py-1 rounded-full bottom-[1px] border border-solid"
                 :class="themeStore.theme === 'dark' ? 'border-[#4943436e]' : ''"
               >
-                {{ isMinus ? "-" : "+" }}1%
+                +1%
               </button>
               <button
                 @click="adjustLimitPrice(5)"
                 class="text-sm px-3 outline-none py-1 rounded-full bottom-[1px] border border-solid"
                 :class="themeStore.theme === 'dark' ? 'border-[#4943436e]' : ''"
               >
-                {{ isMinus ? "-" : "+" }}5%
+                +5%
               </button>
               <button
                 @click="adjustLimitPrice(10)"
                 class="text-sm px-3 outline-none py-1 rounded-full bottom-[1px] border border-solid"
                 :class="themeStore.theme === 'dark' ? 'border-[#4943436e]' : ''"
               >
-                {{ isMinus ? "-" : "+" }}10%
+                +10%
               </button>
             </div>
           </div>
@@ -58,8 +61,7 @@
             <svg
               @click="
                 () => {
-                  toggleIsMinus();
-                  handleToggleIsSell();
+                  toggleSwap();
                 }
               "
               width="16px"
@@ -121,8 +123,10 @@
             <p>{{ swap ? "Buy" : "Sell" }}</p>
             <input
               class="text-lg text-textPrimary placeholder:text-3xl outline-none bg-transparent"
-              type="text"
+              type="number"
               placeholder="0"
+              v-model.number="sellAmount"
+              @input="recalculateBuyAmount"
             />
           </div>
 
@@ -197,8 +201,10 @@
             <p>{{ swap ? "Sell" : "Buy" }}</p>
             <input
               class="text-lg text-textPrimary placeholder:text-3xl outline-none bg-transparent"
-              type="text"
+              type="number"
               placeholder="0"
+              v-model.number="buyAmount"
+              @input="recalculateSellAmount"
             />
           </div>
 
@@ -313,56 +319,70 @@
 </template>
 
 <script setup>
+import { ref, computed, watch } from "vue";
 import { useThemeStore } from "~/stores/theme";
 import { useTokenStore } from "~/stores/token";
 
 const tokenStore = useTokenStore();
-
 const themeStore = useThemeStore();
+
+const isSell = ref(true); // Toggles between Sell and Buy modes
 const swap = ref(false);
-const isMinus = ref(false);
-const isSell = ref(true);
+const limitPrice = ref(0); // Price of 1 unit of the token
+const sellAmount = ref(0); // Amount to sell
+const buyAmount = ref(0); // Amount to buy
 
-const handleToggleIsSell = () => {
-  isSell.value = !isSell.value;
-};
+// Computed property to track current token prices
+const currentPrice = computed(() =>
+  isSell.value
+    ? tokenStore.selectedTokens.limit.sell?.price || 0
+    : tokenStore.selectedTokens.limit.buy?.price || 0
+);
 
-const toggleSwap = () => {
-  swap.value = !swap.value;
-  [selectedTokens.value.sell, selectedTokens.value.buy] = [
-    selectedTokens.value.buy,
-    selectedTokens.value.sell,
-  ];
-};
-
-const toggleIsMinus = () => {
-  isMinus.value = !isMinus.value;
-};
-
-const limitPrice = ref(0); // The limit price the user inputs
-const sellAmount = ref(0); // Amount of tokens the user wants to sell
-const buyAmount = ref(0); // Amount of tokens the user wants to buy
-
-// Token details (mock example if fetched from store)
-const selectedTokens = ref({
-  sell: { symbol: "ETH", price: 2000, image: "eth-image.png" },
-  buy: { symbol: "USDT", price: 1, image: "usdt-image.png" },
+// Watch for token price changes and update Limit Price
+watch(currentPrice, (newPrice) => {
+  limitPrice.value = newPrice;
 });
 
-watch([limitPrice, sellAmount, buyAmount], ([newPrice, newSell, newBuy]) => {
-  if (newPrice && newSell) {
-    buyAmount.value = (newSell * newPrice).toFixed(6);
-  } else if (newPrice && newBuy) {
-    sellAmount.value = (newBuy / newPrice).toFixed(6);
+// Adjust the limit price by a percentage
+const adjustLimitPrice = (percentage) => {
+  if (percentage === 0) {
+    limitPrice.value = limitPrice.value * 1;
+    recalculateAmounts();
+    return;
   }
-});
 
-const adjustLimitPrice = (percent) => {
-  const adjustment = (limitPrice.value * percent) / 100;
-  limitPrice.value += isMinus.value ? -adjustment : adjustment;
+  limitPrice.value += (limitPrice.value * percentage) / 100;
+  recalculateAmounts();
 };
 
-const handleToggleIsMinus = () => {
-  isMinus.value = !isMinus.value;
+// Toggle between Sell and Buy modes
+const toggleSwap = () => {
+  isSell.value = !isSell.value;
+  limitPrice.value = currentPrice.value;
+  recalculateAmounts();
+};
+
+// Calculate Buy Amount from Sell Amount and Limit Price
+const recalculateBuyAmount = () => {
+  if (limitPrice.value > 0) {
+    buyAmount.value = sellAmount.value * limitPrice.value;
+  }
+};
+
+// Calculate Sell Amount from Buy Amount and Limit Price
+const recalculateSellAmount = () => {
+  if (limitPrice.value > 0) {
+    sellAmount.value = buyAmount.value / limitPrice.value;
+  }
+};
+
+// Recalculate both amounts if Limit Price changes
+const recalculateAmounts = () => {
+  if (sellAmount.value > 0) {
+    recalculateBuyAmount();
+  } else if (buyAmount.value > 0) {
+    recalculateSellAmount();
+  }
 };
 </script>
