@@ -1,9 +1,7 @@
 <template>
-  <div class="flex justify-center items-center py-16 flex-col">
+  <div class="flex justify-center items-center py-16 flex-col gap-y-10">
     <TabNavigation />
 
-    <div class="mt-[-15px]">
-      <Swap />
-    </div>
+    <Swap />
   </div>
 </template>

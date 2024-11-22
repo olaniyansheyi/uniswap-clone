@@ -37,13 +37,13 @@
     >
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
         <h1 class="text-textSecondary text-sm">TVL</h1>
-        <h1 class="text-textPrimary w-full text-4xl">
+        <h1 class="text-textPrimary w-full text-2xl">
           ${{ tokenStore.formatPrice(tokenStore.tokenDetails.volume) }}
         </h1>
       </div>
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
         <h1 class="text-textSecondary text-sm">FDV</h1>
-        <h1 class="text-textPrimary w-full text-4xl">
+        <h1 class="text-textPrimary w-full text-2xl">
           ${{
             tokenStore.tokenDetails.marketCap === 0 || null
               ? "406.0B"
@@ -53,7 +53,7 @@
       </div>
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
         <h1 class="text-textSecondary text-sm">Market cap</h1>
-        <h1 class="text-textPrimary w-full text-4xl">
+        <h1 class="text-textPrimary w-full text-2xl">
           ${{
             tokenStore.tokenDetails.marketCap === 0 || null
               ? "406.0B"
@@ -63,7 +63,7 @@
       </div>
       <div class="flex flex-col justify-start items-start w-[45%] sm:w-auto">
         <h1 class="text-textSecondary text-sm">1 day volume</h1>
-        <h1 class="text-textPrimary w-full text-4xl">
+        <h1 class="text-textPrimary w-full text-2xl">
           ${{ tokenStore.formatPrice(tokenStore.tokenDetails.volume) }}
         </h1>
       </div>
@@ -72,13 +72,20 @@
     <h1 class="text-textPrimary w-full text-2xl py-5 font-medium">
       Transactions
     </h1>
-    <img src="~/assets/img/trans-pool.png" alt="" />
+    <img src="~/assets/img/trans-pool.png" class="rounded-2xl" alt="" />
 
     <div
       class="fixed left-0 right-0 bottom-0 h-[80px] bg-white bg-opacity-20 backdrop-blur-md flex lg:hidden justify-around items-center"
     >
       <NuxtLink
         to="/buy"
+        @click="
+          tokenStore.onBuy({
+            price: tokenStore.tokenDetails.price,
+            image: tokenStore.tokenDetails.image,
+            symbol: tokenStore.tokenDetails.symbol,
+          })
+        "
         class="px-6 py-3 rounded-full btn-bg text-white flex gap-x-1 justify-center items-center outline-none"
       >
         <svg
@@ -113,9 +120,16 @@
             fill="white"
           ></path>
         </svg>
-        <span>Sell</span>
+        <span>Swap</span>
       </NuxtLink>
       <NuxtLink
+        @click="
+          tokenStore.onSend({
+            price: tokenStore.tokenDetails.price,
+            image: tokenStore.tokenDetails.image,
+            symbol: tokenStore.tokenDetails.symbol,
+          })
+        "
         to="/send"
         class="px-6 py-3 rounded-full btn-bg text-white flex gap-x-1 justify-center items-center outline-none"
       >

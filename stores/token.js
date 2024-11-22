@@ -65,6 +65,10 @@ export const useTokenStore = defineStore("token", {
         this.selectedTokens.swap.sell = selectedToken;
       } else if (this.currentAction === "buy") {
         this.selectedTokens.swap.buy = selectedToken;
+      } else if (this.currentAction === "buy-tab") {
+        this.selectedTokens.buy = selectedToken;
+      } else if (this.currentAction === "send-tab") {
+        this.selectedTokens.send = selectedToken;
       }
     },
 
@@ -90,6 +94,14 @@ export const useTokenStore = defineStore("token", {
           sellToken.price = tokenPrice * tokenUnit;
         }
       }
+    },
+
+    onBuy(token) {
+      this.selectedTokens.buy = token;
+    },
+
+    onSend(token) {
+      this.selectedTokens.send = token;
     },
     /**
      * Search tokens by name or symbol
