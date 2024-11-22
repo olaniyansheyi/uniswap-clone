@@ -29,18 +29,21 @@
                 Market
               </button>
               <button
+                @click="adjustLimitPrice(1)"
                 class="text-sm px-3 outline-none py-1 rounded-full bottom-[1px] border border-solid"
                 :class="themeStore.theme === 'dark' ? 'border-[#4943436e]' : ''"
               >
                 {{ isMinus ? "-" : "+" }}1%
               </button>
               <button
+                @click="adjustLimitPrice(5)"
                 class="text-sm px-3 outline-none py-1 rounded-full bottom-[1px] border border-solid"
                 :class="themeStore.theme === 'dark' ? 'border-[#4943436e]' : ''"
               >
                 {{ isMinus ? "-" : "+" }}5%
               </button>
               <button
+                @click="adjustLimitPrice(10)"
                 class="text-sm px-3 outline-none py-1 rounded-full bottom-[1px] border border-solid"
                 :class="themeStore.theme === 'dark' ? 'border-[#4943436e]' : ''"
               >
@@ -53,7 +56,12 @@
             class="flex flex-col gap-y-5 justify-end items-end pt-2 p-1 cursor-pointer"
           >
             <svg
-              @click="toggleIsMinus"
+              @click="
+                () => {
+                  toggleIsMinus();
+                  handleToggleIsSell();
+                }
+              "
               width="16px"
               height="16px"
               viewBox="0 3 24 24"
@@ -68,6 +76,10 @@
             </svg>
 
             <div
+              v-if="
+                tokenStore.selectedTokens.limit.sell !== null &&
+                tokenStore.selectedTokens.limit.buy !== null
+              "
               class="rounded-full bottom-[1px] flex px-3 py-2 justify-center items-center gap-x-2 border border-solid"
               :class="
                 themeStore.theme === 'dark'
@@ -75,9 +87,22 @@
                   : 'bg-[#e2e0e014]'
               "
             >
-              <img src="~/assets/img/eth.png" class="w-[20px] h-[20px]" />
+              <img
+                :src="
+                  isSell
+                    ? tokenStore.selectedTokens.limit.sell.image
+                    : tokenStore.selectedTokens.limit.buy.image
+                "
+                class="w-[20px] h-[20px]"
+              />
               <div class="flex">
-                <h1 class="text-textPrimary font-medium gap-x-1">ETH</h1>
+                <h1 class="text-textPrimary font-medium gap-x-1">
+                  {{
+                    isSell
+                      ? tokenStore.selectedTokens.limit.sell.symbol
+                      : tokenStore.selectedTokens.limit.buy.symbol
+                  }}
+                </h1>
               </div>
             </div>
           </div>
@@ -101,7 +126,31 @@
             />
           </div>
 
+          <button
+            v-if="tokenStore.selectedTokens.limit.sell === null"
+            @click="tokenStore.handleToggleOpenTokensModal('limit-sell-tab')"
+            class="text-white px-3 py-2 rounded-full outline-none border-none flex justify-center items-center gap-x-2 font-medium bg-primary whitespace-nowrap text-xs"
+          >
+            <span>Select token</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20px"
+              height="20px"
+              viewBox="0 0 24 24"
+              fill="none"
+              class="rotate-360 font-medium"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
           <div
+            v-else
+            @click="tokenStore.handleToggleOpenTokensModal('limit-sell-tab')"
             class="rounded-full bottom-[1px] border border-solid flex px-3 py-2 justify-center items-center gap-x-2"
             :class="
               themeStore.theme === 'dark'
@@ -109,9 +158,14 @@
                 : 'bg-[#e2e0e014]'
             "
           >
-            <img src="~/assets/img/eth.png" class="w-[28px] h-[28px]" />
+            <img
+              :src="tokenStore.selectedTokens.limit.sell.image"
+              class="w-[28px] h-[28px]"
+            />
             <div class="flex">
-              <h1 class="text-textPrimary font-medium gap-x-1">ETH</h1>
+              <h1 class="text-textPrimary font-medium gap-x-1">
+                {{ tokenStore.selectedTokens.limit.sell.symbol }}
+              </h1>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20px"
@@ -148,7 +202,31 @@
             />
           </div>
 
+          <button
+            v-if="tokenStore.selectedTokens.limit.buy === null"
+            @click="tokenStore.handleToggleOpenTokensModal('limit-buy-tab')"
+            class="text-white px-3 py-2 rounded-full outline-none border-none flex justify-center items-center gap-x-2 font-medium bg-primary whitespace-nowrap text-xs"
+          >
+            <span>Select token</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20px"
+              height="20px"
+              viewBox="0 0 24 24"
+              fill="none"
+              class="rotate-360 font-medium"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
           <div
+            v-else
+            @click="tokenStore.handleToggleOpenTokensModal('limit-sell-tab')"
             class="rounded-full bottom-[1px] border border-solid flex px-3 py-2 justify-center items-center gap-x-2"
             :class="
               themeStore.theme === 'dark'
@@ -156,9 +234,14 @@
                 : 'bg-[#e2e0e014]'
             "
           >
-            <img src="~/assets/img/usdc.png" class="w-[28px] h-[28px]" />
+            <img
+              :src="tokenStore.selectedTokens.limit.buy.image"
+              class="w-[28px] h-[28px]"
+            />
             <div class="flex">
-              <h1 class="text-textPrimary font-medium gap-x-1">USDC</h1>
+              <h1 class="text-textPrimary font-medium gap-x-1">
+                {{ tokenStore.selectedTokens.limit.buy.symbol }}
+              </h1>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20px"
@@ -231,16 +314,55 @@
 
 <script setup>
 import { useThemeStore } from "~/stores/theme";
+import { useTokenStore } from "~/stores/token";
+
+const tokenStore = useTokenStore();
 
 const themeStore = useThemeStore();
 const swap = ref(false);
 const isMinus = ref(false);
+const isSell = ref(true);
+
+const handleToggleIsSell = () => {
+  isSell.value = !isSell.value;
+};
 
 const toggleSwap = () => {
   swap.value = !swap.value;
+  [selectedTokens.value.sell, selectedTokens.value.buy] = [
+    selectedTokens.value.buy,
+    selectedTokens.value.sell,
+  ];
 };
 
 const toggleIsMinus = () => {
+  isMinus.value = !isMinus.value;
+};
+
+const limitPrice = ref(0); // The limit price the user inputs
+const sellAmount = ref(0); // Amount of tokens the user wants to sell
+const buyAmount = ref(0); // Amount of tokens the user wants to buy
+
+// Token details (mock example if fetched from store)
+const selectedTokens = ref({
+  sell: { symbol: "ETH", price: 2000, image: "eth-image.png" },
+  buy: { symbol: "USDT", price: 1, image: "usdt-image.png" },
+});
+
+watch([limitPrice, sellAmount, buyAmount], ([newPrice, newSell, newBuy]) => {
+  if (newPrice && newSell) {
+    buyAmount.value = (newSell * newPrice).toFixed(6);
+  } else if (newPrice && newBuy) {
+    sellAmount.value = (newBuy / newPrice).toFixed(6);
+  }
+});
+
+const adjustLimitPrice = (percent) => {
+  const adjustment = (limitPrice.value * percent) / 100;
+  limitPrice.value += isMinus.value ? -adjustment : adjustment;
+};
+
+const handleToggleIsMinus = () => {
   isMinus.value = !isMinus.value;
 };
 </script>

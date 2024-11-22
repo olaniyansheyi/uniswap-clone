@@ -11,7 +11,10 @@ export const useTokenStore = defineStore("token", {
       },
       buy: null,
       send: null,
-      limit: null,
+      limit: {
+        sell: null,
+        buy: null,
+      },
     }, // Stores selected tokens per tab
     currentAction: null,
     openTokensModal: false,
@@ -69,6 +72,10 @@ export const useTokenStore = defineStore("token", {
         this.selectedTokens.buy = selectedToken;
       } else if (this.currentAction === "send-tab") {
         this.selectedTokens.send = selectedToken;
+      } else if (this.currentAction === "limit-sell-tab") {
+        this.selectedTokens.limit.sell = selectedToken;
+      } else if (this.currentAction === "limit-buy-tab") {
+        this.selectedTokens.limit.buy = selectedToken;
       }
     },
 
