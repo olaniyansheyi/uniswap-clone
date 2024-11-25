@@ -1,15 +1,3 @@
-<template>
-  <div class="relative bg-bgLight">
-    <NuxtLayout>
-      <NuxtPage />
-      <Menu v-if="menuStore.openMenu" />
-      <GlobalPreference v-if="menuStore.openGlobalPreference" />
-      <SearchTab v-if="menuStore.openSearch" />
-      <TokensModal v-if="tokenStore.openTokensModal" />
-    </NuxtLayout>
-  </div>
-</template>
-
 <script setup>
 import { useMenuStore } from "~/stores/menu";
 import { useThemeStore } from "~/stores/theme";
@@ -23,3 +11,15 @@ onMounted(() => {
   themeStore.initializeTheme();
 });
 </script>
+
+<template>
+  <div class="relative bg-bgLight">
+    <NuxtLayout>
+      <NuxtPage />
+      <Menu v-if="menuStore.openMenu" />
+      <GlobalPreference v-if="menuStore.openGlobalPreference" />
+      <SearchTab v-if="menuStore.openSearch" />
+      <TokensModal v-if="tokenStore.openTokensModal" />
+    </NuxtLayout>
+  </div>
+</template>

@@ -10,18 +10,27 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^4.2.3",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@nuxt/http": "^0.6.4",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@pinia/nuxt": "^0.7.0",
-    "ethers": "^6.13.4",
+    "@tanstack/vue-query": "^5.61.3",
+    "@thirdweb-dev/sdk": "^4.0.99",
+    "@wagmi/vue": "^0.0.65",
+    "@walletconnect/web3-provider": "^1.8.0",
+    "ethers": "^5.7.2",
+    "global": "^4.4.0",
     "nuxt": "^3.14.159",
     "pinia": "^2.2.6",
-    "vue": "latest",
-    "vue-router": "latest"
+    "viem": "^2.21.50",
+    "vue": "^3.5.13",
+    "vue-router": "latest",
+    "web3modal": "^1.9.12"
   },
   "devDependencies": {
+    "node-polyfill-webpack-plugin": "^4.0.0",
     "typescript": "^5.6.3"
   }
 }
