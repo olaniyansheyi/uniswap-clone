@@ -1,4 +1,5 @@
 <script setup>
+import "~/init";
 import { useMenuStore } from "~/stores/menu";
 import { useThemeStore } from "~/stores/theme";
 import { useTokenStore } from "~/stores/token";
