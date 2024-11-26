@@ -1,3 +1,3 @@
 <template>
-  <h1>connect</h1>
+  <appkit-button />
 </template>

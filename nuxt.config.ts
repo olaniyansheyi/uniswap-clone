@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss"],
-
+  ssr: true,
+  runtimeConfig: {
+    public: {
+      REOWN_PROJECT_ID: "0bc92a3fea81abd098d50ad833896df9",
+    },
+  },
   devtools: { enabled: true },
   css: ["~/assets/css/global.css"],
   app: {
@@ -14,6 +19,7 @@ export default defineNuxtConfig({
           content: "Trade crypto an NFTs on the top Defi platform",
         },
       ],
+
       link: [
         {
           rel: "icon",
