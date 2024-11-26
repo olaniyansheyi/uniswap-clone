@@ -1,3 +1,5 @@
 <template>
-  <appkit-button />
+  <client-only>
+    <appkit-button />
+  </client-only>
 </template>

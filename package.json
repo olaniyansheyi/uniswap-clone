@@ -17,6 +17,7 @@
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@pinia/nuxt": "^0.7.0",
     "@reown/appkit": "^1.5.2",
+    "@reown/appkit-adapter-ethers": "^1.5.2",
     "@reown/appkit-adapter-wagmi": "^1.5.2",
     "@tanstack/vue-query": "^5.61.3",
     "@wagmi/vue": "^0.0.65",
