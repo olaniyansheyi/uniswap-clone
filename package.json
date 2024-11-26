@@ -17,8 +17,6 @@
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@pinia/nuxt": "^0.7.0",
     "@tanstack/vue-query": "^5.61.3",
-    "@thirdweb-dev/sdk": "^4.0.99",
-    "@wagmi/vue": "^0.0.65",
     "@walletconnect/web3-provider": "^1.8.0",
     "buffer": "^6.0.3",
     "ethers": "^6.13.4",
