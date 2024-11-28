@@ -15,6 +15,7 @@ export default {
       colors: {
         bgLight: "var(--color-bg)",
         primary: "#FC72FF",
+        secondary: "#9333EA",
         textPrimary: "var(--color-text-primary)",
         textSecondary: "var(--color-text-secondary)",
         bgSec: "var(--color-bg-2)",

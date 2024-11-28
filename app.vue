@@ -1,34 +1,37 @@
-<script setup lang="ts">
-import { createAppKit, useAppKit } from "@reown/appkit/vue";
-import { EthersAdapter } from "@reown/appkit-adapter-ethers";
-import { mainnet, arbitrum } from "@reown/appkit/networks";
+<script setup>
+import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/vue";
+import Component from "@/composables/useEthers";
+import { useMenuStore } from "~/stores/menu";
+import { useThemeStore } from "~/stores/theme";
+import { useTokenStore } from "~/stores/token";
 
-// 1. Get projectId from https://cloud.reown.com
+// 1. Get projectId at https://cloud.walletconnect.com
 const projectId = "0bc92a3fea81abd098d50ad833896df9";
 
-// 2. Create your application's metadata object
+// 2. Set chains
+const mainnet = {
+  chainId: 1,
+  name: "Ethereum",
+  currency: "ETH",
+  explorerUrl: "https://etherscan.io",
+  rpcUrl: "https://cloudflare-eth.com",
+};
+
+// 3. Create modal
 const metadata = {
-  name: "uniswap",
-  description: "connect your wallet",
+  name: "My Website",
+  description: "My Website description",
   url: "https://uniswap-clone-psi.vercel.app",
   icons: ["https://avatars.mywebsite.com/"],
 };
 
-// 3. Create a AppKit instance
-createAppKit({
-  adapters: [new EthersAdapter()],
-  networks: [mainnet, arbitrum],
-  metadata,
+createWeb3Modal({
+  ethersConfig: defaultConfig({ metadata }),
+  chains: [mainnet],
   projectId,
-  features: {
-    analytics: true,
-    swaps: false,
-    onramp: false,
-  },
 });
 
-// 4. Use modal composable
-const modal = useAppKit();
+const walletConnect = Component();
 
 const tokenStore = useTokenStore();
 
@@ -44,6 +47,18 @@ const themeStore = useThemeStore();
       <GlobalPreference v-if="menuStore.openGlobalPreference" />
       <SearchTab v-if="menuStore.openSearch" />
       <TokensModal v-if="tokenStore.openTokensModal" />
+
+      <div>
+        <w3m-button />
+        <button @click="walletConnect.open()">Open</button>
+        <button @click="walletConnect.close()">Close</button>
+        <button @click="walletConnect.openAccount()">Account</button>
+        <button @click="walletConnect.selectNetwork()">Select Network</button>
+        <button @click="walletConnect.disconnect()">Disconnect</button>
+        <button @click="walletConnect.selectedNetworkId()">
+          selectedNetworkId
+        </button>
+      </div>
     </NuxtLayout>
   </div>
 </template>

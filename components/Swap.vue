@@ -213,9 +213,6 @@ import { ref, watch } from "vue";
 import { useMenuStore } from "~/stores/menu";
 import { useThemeStore } from "~/stores/theme";
 import { useTokenStore } from "~/stores/token";
-import { useAppKit } from "@reown/appkit/vue";
-
-const { modal } = useAppKit();
 
 const tokenStore = useTokenStore();
 const themeStore = useThemeStore();

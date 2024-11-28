@@ -191,9 +191,9 @@
       >
         connect
       </button> -->
-      <appkit-button
+      <!-- <appkit-button
         class="rounded-full py-[10px] px-3 text-primary bg-[#fd72ff1e] text-center font-semibold text-sm text-[16px]"
-      />
+      /> -->
     </div>
   </div>
 </template>
