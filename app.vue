@@ -6,7 +6,7 @@ import { useThemeStore } from "~/stores/theme";
 import { useTokenStore } from "~/stores/token";
 
 // 1. Get projectId at https://cloud.walletconnect.com
-const projectId = "0bc92a3fea81abd098d50ad833896df9";
+const projectId = "9c52bbb96598e1c70a786d7d08f436e4";
 
 // 2. Set chains
 const mainnet = {
