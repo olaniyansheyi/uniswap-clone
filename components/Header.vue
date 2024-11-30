@@ -194,6 +194,8 @@
       <!-- <appkit-button
         class="rounded-full py-[10px] px-3 text-primary bg-[#fd72ff1e] text-center font-semibold text-sm text-[16px]"
       /> -->
+
+      <w3m-button class="connect-btn" />
     </div>
   </div>
 </template>
@@ -227,5 +229,17 @@ function handleClick() {
 <style scoped>
 .color-white {
   color: white;
+}
+.connect-btn {
+  border-radius: 9999px !important; /* rounded-full */
+  padding-top: 10px !important; /* py-[10px] */
+  padding-bottom: 10px !important;
+  padding-left: 12px !important; /* px-3 (3 * 4px = 12px) */
+  padding-right: 12px !important;
+  color: var(--primary-color, #00bb7f) !important; /* text-primary */
+  background-color: rgba(253, 114, 255, 0.12) !important; /* bg-[#fd72ff1e] */
+  text-align: center !important; /* text-center */
+  font-weight: 600 !important; /* font-semibold */
+  font-size: 16px !important; /* text-[16px] */
 }
 </style>
